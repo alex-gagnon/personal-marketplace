@@ -21,14 +21,20 @@ Write descriptions precisely — they are the relevance signal that determines w
 
 ## Adding a New Skill
 
-1. Create `skills/<skill-name>/SKILL.md` using the template in `skills/commit/SKILL.md` as reference
-2. Add an entry to README.md
-3. Commit: `add <skill-name> skill`
+1. **Check for overlap first** — read README.md and scan existing skill descriptions. If a skill with similar purpose exists:
+   - Extend the existing skill if the new behavior is a variant of the same trigger
+   - Merge into the existing skill if both trigger on nearly identical user intent AND the combined SKILL.md body stays under ~400 tokens
+   - Only create a new skill if the purpose, trigger, and output are clearly distinct
+2. Create `skills/<skill-name>/SKILL.md` using the template in `skills/commit/SKILL.md` as reference
+3. Add an entry to README.md
+4. Commit: `add <skill-name> skill`
 
 ## Key Conventions for AI Assistants
 
 - Do not create new skill files unless explicitly requested
+- Before creating a skill, always check for overlap with existing skills (see Adding a New Skill above)
 - Prefer editing existing skill files over creating new ones
+- When two skills have nearly identical triggers, merge them rather than maintaining duplicates — unless the merge would significantly increase the Tier 2 token cost
 - Never rename a skill folder without updating README.md and all cross-references
 - Skills with support files must explicitly instruct Claude to load them — Tier 3 is not automatic
 - If a skill's purpose is unclear, read its SKILL.md before invoking or editing it
