@@ -1,9 +1,4 @@
----
-name: branch
-description: Creates or switches to a git branch following the repository's naming conventions and branch strategy.
-version: 1.0.0
-tags: [git]
----
+# Branch Sub-Behavior
 
 ## When to Use
 

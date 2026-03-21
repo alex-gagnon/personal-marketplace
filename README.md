@@ -4,12 +4,10 @@ A collection of Claude Code skills for common development workflows. Skills are 
 
 ## Available Skills
 
-| Skill | Command | Description | Support Files |
+| Skill | Command | Description | Sub-behaviors / Support Files |
 |---|---|---|---|
-| commit | `/commit` | Creates a well-formatted git commit message from staged changes using imperative mood and conventional structure. | — |
-| branch | `/branch` | Creates or switches to a git branch following the repository's naming conventions and branch strategy. | — |
+| source-control | `/source-control` | Handles git workflow — routes to commit, branch, or diff summary based on context. | commit, branch, summarize-diff |
 | review-pr | `/review-pr` | Reviews a pull request for logic errors, security issues, test coverage, and style — producing structured inline feedback. | `checklist.md` |
-| summarize-diff | `/summarize-diff` | Produces a concise plain-English summary of a git diff or set of changes, suitable for PR descriptions or changelogs. | — |
 | simplify | `/simplify` | Refactors a code block or file to reduce complexity, improve readability, and eliminate redundancy without changing behavior. | `patterns.md` |
 | add-tests | `/add-tests` | Generates tests for an existing function or module, covering happy paths, edge cases, and error conditions. | `test-strategies.md` |
 | document | `/document` | Adds or improves inline documentation, docstrings, and README sections for a function, module, or project. | `templates.md` |
@@ -23,8 +21,8 @@ Each skill has a `tests.md` file with scenarios, rubrics, and golden outputs. Th
 
 **Semantic quality (LLM-as-judge)** — run the `/test` skill to evaluate all skills:
 ```
-/test           # evaluate all skills
-/test commit    # evaluate one skill
+/test                  # evaluate all skills
+/test source-control   # evaluate one skill
 ```
 
 **Format/schema assertions (CI)** — run promptfoo for deterministic checks:
@@ -54,4 +52,4 @@ ln -s /path/to/this/repo/skills ~/.claude/skills
 
 ## Adding a Skill
 
-See [CLAUDE.md](./CLAUDE.md) for conventions and the `skills/commit/SKILL.md` file as a template.
+See [CLAUDE.md](./CLAUDE.md) for conventions and the `skills/source-control/SKILL.md` file as a template for skills with Tier 3 sub-behaviors.

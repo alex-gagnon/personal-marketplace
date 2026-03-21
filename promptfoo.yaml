@@ -17,72 +17,80 @@ defaultTest:
     repeat: 3
     threshold: 0.67
 
-# ─── commit ──────────────────────────────────────────────────────────────────
+# ─── source-control ──────────────────────────────────────────────────────────
 tests:
-  - description: "commit: subject line ≤72 chars"
+  - description: "source-control: routes commit intent — subject line ≤72 chars"
     vars:
-      skill: commit
+      skill: source-control
       scenario: |
         Staged diff: adds a None check to process_order() in orders.py.
-        Run /commit.
-    prompt: "{{scenario}}\n\nApply the /commit skill. Produce only the output the skill would generate."
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill. Produce only the output the skill would generate."
     assert:
       - type: javascript
         value: |
-          // Extract first line of output (the commit subject)
           const firstLine = output.split('\n').find(l => l.trim().length > 0) || '';
-          // Strip "git commit -m " prefix if present
           const subject = firstLine.replace(/^git commit -m ["']?/, '').replace(/["']?$/, '').trim();
           return subject.length <= 72;
 
-  - description: "commit: refuses when nothing staged"
+  - description: "source-control: routes commit intent — refuses when nothing staged"
     vars:
-      skill: commit
+      skill: source-control
       scenario: |
         git status shows modified files but git diff --staged is empty.
-        Run /commit.
-    prompt: "{{scenario}}\n\nApply the /commit skill."
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: not-contains
         value: "git commit"
       - type: llm-rubric
-        value: "The response explains that nothing is staged and tells the user to run git add first."
+        value: "The response explains that nothing is staged and asks whether to stage specific files."
 
-  - description: "commit: flags breaking change"
+  - description: "source-control: routes commit intent — flags breaking change"
     vars:
-      skill: commit
+      skill: source-control
       scenario: |
         Staged diff removes the public function getUserById() from a shared utility module.
-        Run /commit.
-    prompt: "{{scenario}}\n\nApply the /commit skill."
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: llm-rubric
         value: "The commit message signals a breaking change — either with a '!' suffix (e.g. 'feat!:') or a 'BREAKING CHANGE:' note."
 
-# ─── branch ──────────────────────────────────────────────────────────────────
-  - description: "branch: one-line confirmation output"
+  - description: "source-control: routes branch intent — one-line confirmation"
     vars:
-      skill: branch
+      skill: source-control
       scenario: |
-        User wants to work on adding dark mode. Repo is on main.
-        Run /branch.
-    prompt: "{{scenario}}\n\nApply the /branch skill."
+        User says "I want to create a branch for adding dark mode support." Repo is on main, working tree is clean.
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: javascript
         value: |
           const lines = output.trim().split('\n').filter(l => l.trim().length > 0);
           return lines.length === 1;
 
-  - description: "branch: name includes descriptive slug"
+  - description: "source-control: routes branch intent — descriptive slug"
     vars:
-      skill: branch
+      skill: source-control
       scenario: |
         User: "I want to work on adding dark mode support."
-        Run /branch.
-    prompt: "{{scenario}}\n\nApply the /branch skill."
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: llm-rubric
         value: "The branch name contains a descriptive slug related to dark mode (e.g. 'dark-mode', 'dark-mode-support'), not a generic name like 'new-branch' or 'feature'."
+
+  - description: "source-control: unclear intent — asks one clarifying question"
+    vars:
+      skill: source-control
+      scenario: |
+        User invokes /source-control with no additional context. No staged changes. No diff.
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
+    assert:
+      - type: llm-rubric
+        value: "The response asks exactly one question covering all three options: commit, branch, or summarize a diff. It does not make assumptions or proceed without asking."
 
 # ─── review-pr ───────────────────────────────────────────────────────────────
   - description: "review-pr: required section headers present"
@@ -217,27 +225,27 @@ tests:
       - type: contains
         value: "### Risks / Things to Verify"
 
-# ─── summarize-diff ──────────────────────────────────────────────────────────
-  - description: "summarize-diff: Summary and Changes sections present"
+# ─── source-control (summarize route) ────────────────────────────────────────
+  - description: "source-control: routes summarize intent — Summary and Changes sections present"
     vars:
-      skill: summarize-diff
+      skill: source-control
       scenario: |
-        Diff adds export_csv.py (feature), fixes null handling in parse_row() (fix), adds tests.
-        Run /summarize-diff.
-    prompt: "{{scenario}}\n\nApply the /summarize-diff skill."
+        User pastes a diff: adds export_csv.py (feature), fixes null handling in parse_row() (fix), adds tests.
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: contains
         value: "### Summary"
       - type: contains
         value: "### Changes"
 
-  - description: "summarize-diff: Summary paragraph ≤100 words"
+  - description: "source-control: routes summarize intent — Summary ≤100 words"
     vars:
-      skill: summarize-diff
+      skill: source-control
       scenario: |
-        Diff adds export_csv.py (feature), fixes null handling in parse_row() (fix), adds tests.
-        Run /summarize-diff.
-    prompt: "{{scenario}}\n\nApply the /summarize-diff skill."
+        User pastes a diff: adds export_csv.py (feature), fixes null handling in parse_row() (fix), adds tests.
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: javascript
         value: |
@@ -246,13 +254,13 @@ tests:
           const words = summaryMatch[1].trim().split(/\s+/).length;
           return words <= 100;
 
-  - description: "summarize-diff: no empty categories"
+  - description: "source-control: routes summarize intent — no empty categories"
     vars:
-      skill: summarize-diff
+      skill: source-control
       scenario: |
-        Pure refactor: renames utils.js to helpers.js and updates all imports. No other changes.
-        Run /summarize-diff.
-    prompt: "{{scenario}}\n\nApply the /summarize-diff skill."
+        User pastes a diff: pure refactor — renames utils.js to helpers.js and updates all imports.
+        Run /source-control.
+    prompt: "{{scenario}}\n\nApply the /source-control skill."
     assert:
       - type: not-contains
         value: "**Feature:**"
