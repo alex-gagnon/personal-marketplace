@@ -1,13 +1,8 @@
----
-name: commit
-description: Creates a well-formatted git commit message from staged changes using imperative mood and conventional structure.
-version: 1.0.0
-tags: [git]
----
+# Commit Sub-Behavior
 
 ## When to Use
 
-When the user asks to commit, create a commit message, or "save changes". Requires a git repository with staged changes. If nothing is staged, warn and stop — do not auto-stage files.
+When the user asks to commit, create a commit message, or "save changes". Requires staged changes. If nothing is staged, warn and stop — do not auto-stage files.
 
 ## Steps
 

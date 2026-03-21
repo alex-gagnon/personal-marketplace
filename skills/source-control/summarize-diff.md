@@ -1,9 +1,4 @@
----
-name: summarize-diff
-description: Produces a concise plain-English summary of a git diff or set of changes, suitable for PR descriptions or changelogs.
-version: 1.0.0
-tags: [review, git]
----
+# Summarize Diff Sub-Behavior
 
 ## When to Use
 
