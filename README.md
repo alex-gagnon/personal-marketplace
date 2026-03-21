@@ -15,6 +15,25 @@ A collection of Claude Code skills for common development workflows. Skills are 
 | document | `/document` | Adds or improves inline documentation, docstrings, and README sections for a function, module, or project. | `templates.md` |
 | explain | `/explain` | Explains a piece of code, architecture decision, or technical concept in plain language calibrated to the user's apparent expertise level. | — |
 | grill | `/grill` | Challenges a design, plan, or idea using Socratic questioning and devil's-advocate critique to surface hidden assumptions and weaknesses. | `question-bank.md` |
+| test | `/test` | Runs quality evaluations against one or all skills using their tests.md fixture files, scoring format compliance and semantic correctness. | — |
+
+## Testing Skills
+
+Each skill has a `tests.md` file with scenarios, rubrics, and golden outputs. There are two ways to run tests:
+
+**Semantic quality (LLM-as-judge)** — run the `/test` skill to evaluate all skills:
+```
+/test           # evaluate all skills
+/test commit    # evaluate one skill
+```
+
+**Format/schema assertions (CI)** — run promptfoo for deterministic checks:
+```bash
+npx promptfoo eval           # run all format assertions
+npx promptfoo eval --ci      # CI mode (exits non-zero on failure)
+```
+
+Promptfoo requires Node.js. Install it with `npm install -g promptfoo` or use `npx`.
 
 ## Installation
 
