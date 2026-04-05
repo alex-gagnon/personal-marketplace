@@ -247,7 +247,11 @@ page.get_by_test_id("submit-button")
 from playwright.sync_api import Page, expect
 
 # Page-level
-expect(page).to_have_url("/dashboard")
+# IMPORTANT: to_have_url requires a full URL string, a substring, or re.compile()
+# Never use glob patterns like "**/path" — they are not supported and will fail
+import re
+expect(page).to_have_url("http://localhost:3000/dashboard")   # exact match
+expect(page).to_have_url(re.compile(r"/dashboard$"))          # regex — preferred for path checks
 expect(page).to_have_title("Dashboard — MyApp")
 
 # Locator-level

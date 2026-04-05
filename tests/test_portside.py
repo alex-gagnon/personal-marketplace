@@ -1,6 +1,7 @@
 # test_portside.py
 # Framework: Playwright Python — Page Object Model
 # Template: playwright-templates.md
+import re
 import pytest
 from playwright.sync_api import Page, expect
 
@@ -41,7 +42,7 @@ class TestHomePage:
 
         # Clicking "Book a Consultation" navigates to /contact
         home.click_book_consultation()
-        expect(page).to_have_url("**/contact")
+        expect(page).to_have_url(re.compile(r"/contact$"))
 
 
 class TestServicesPage:
@@ -109,7 +110,7 @@ class TestContactPage:
         contact.navigate()
         contact.fill_full_form()
         contact.submit_form()
-        expect(page).to_have_url("**/contact/success")
+        expect(page).to_have_url(re.compile(r"/contact/success$"))
 
 
 class TestSuccessPage:
@@ -139,4 +140,4 @@ class TestSuccessPage:
 
         # Clicking "Return to Home" navigates back to /
         success.click_return_home()
-        expect(page).to_have_url("**/")
+        expect(page).to_have_url(re.compile(r"/$"))

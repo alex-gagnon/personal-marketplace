@@ -17,7 +17,7 @@ class ContactPage(BasePage):
         self.dog_name_input: Locator = page.get_by_label("Dog's Name")
         self.dog_breed_input: Locator = page.get_by_label("Dog's Breed")
         self.additional_notes_input: Locator = page.get_by_label("Additional Notes")
-        self.submit_button: Locator = page.get_by_role("button", name="Submit")
+        self.submit_button: Locator = page.get_by_role("button", name="Send Inquiry")
         self.email_error_alert: Locator = page.get_by_role("alert")
 
     def navigate(self) -> None:  # type: ignore[override]
@@ -25,13 +25,16 @@ class ContactPage(BasePage):
 
     def expect_all_form_fields_present(self) -> None:
         """Assert that all labeled form fields are visible on the page."""
-        expect(self.full_name_input).to_be_visible()
-        expect(self.email_input).to_be_visible()
-        expect(self.phone_input).to_be_visible()
-        expect(self.service_dropdown).to_be_visible()
-        expect(self.dog_name_input).to_be_visible()
-        expect(self.dog_breed_input).to_be_visible()
-        expect(self.additional_notes_input).to_be_visible()
+        for field in [
+            self.full_name_input,
+            self.email_input,
+            self.phone_input,
+            self.service_dropdown,
+            self.dog_name_input,
+            self.dog_breed_input,
+            self.additional_notes_input,
+        ]:
+            expect(field).to_be_visible()
 
     def enter_invalid_email_and_blur(self, invalid_email: str = "not-an-email") -> None:
         """Type an invalid email into the email field then move focus away to trigger inline validation."""

@@ -26,24 +26,14 @@ class ServicesPage(BasePage):
         expect(self.service_cards).to_have_count(3)
 
     def expect_each_card_displays_price(self) -> None:
-        """Assert that every service card contains price text (e.g. '$')."""
-        card_count = self.service_cards.count()
-        for i in range(card_count):
-            card = self.service_cards.nth(i)
-            # Prices are expected to contain a currency symbol
-            price_locator = card.locator("text=/$|price|\\$/i")
-            # Use a broader assertion: card text must contain a dollar sign
-            card_text = card.inner_text()
-            assert "$" in card_text, f"Service card {i + 1} does not display a price (no '$' found)"
+        """Assert that every service card contains a visible price element."""
+        for i in range(self.service_cards.count()):
+            expect(self.service_cards.nth(i).get_by_test_id("price")).to_be_visible()
 
     def expect_each_card_has_book_now_link_to_contact(self) -> None:
         """Assert that every service card has a 'Book Now' link pointing to /contact."""
-        card_count = self.service_cards.count()
-        for i in range(card_count):
-            card = self.service_cards.nth(i)
-            book_now = card.get_by_role("link", name="Book Now")
+        import re
+        for i in range(self.service_cards.count()):
+            book_now = self.service_cards.nth(i).get_by_role("link", name="Book Now")
             expect(book_now).to_be_visible()
-            href = book_now.get_attribute("href")
-            assert href is not None and "/contact" in href, (
-                f"Service card {i + 1} 'Book Now' link href '{href}' does not point to /contact"
-            )
+            expect(book_now).to_have_attribute("href", re.compile(r"/contact"))
