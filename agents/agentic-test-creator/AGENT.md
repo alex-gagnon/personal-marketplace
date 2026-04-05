@@ -66,6 +66,7 @@ Scan repo for:
 - **Locators belong in page/component classes**, not in test methods — tests call page object methods only
 - Generate component classes for any UI element used across multiple pages (nav, alerts, modals)
 - Group related test functions into a `class Test<Feature>` — do not generate module-level test functions
+- **Combine same-page assertions into one test**: if two or more acceptance criteria only require loading the same URL, assert them in a single test method rather than navigating to that page once per criterion — redundant page loads slow suites significantly
 
 ## Output Format
 
