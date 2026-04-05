@@ -39,35 +39,37 @@ Developer productivity skills.
 
 ### sdet-tools
 
-E2E and API test generation from Jira epics, PRs, or QA acceptance criteria.
+E2E and API test generation from Jira epics, PRs, or QA acceptance criteria. The `test-generator` ships as both a Claude Code agent (human-in-the-loop) and an autonomous Agent SDK loop — both share the same flows and templates so updates to one are immediately reflected in the other.
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| test-generator | Agent (Claude Code) | Human-in-the-loop agent that generates Playwright, Selenium, or REST API tests from Jira/PR/AC input. |
-| test-generator | Agent (SDK) | Autonomous Agent SDK loop that reads flows and templates from the agent directory. |
+| test-generator | Agent | Human-in-the-loop Claude Code agent. Generates Playwright, Selenium, or REST API tests from Jira/PR/AC input. |
+| test-generator | Agent SDK | Autonomous loop implementation. Reads flows and templates from the `agents/` directory. |
 | jira | MCP | Exposes Jira epics and stories as callable tools (`get_epic`, `list_stories`, `get_story`, `search_issues`). |
 
 ### plugin-tools
 
 Tools for building and maintaining Claude Code marketplace plugins.
 
-| Component | Type | Description |
-|-----------|------|-------------|
-| plugin-architect | Agent | Designs and scaffolds new marketplace plugins following official conventions. |
-| document | Skill `/document` | Adds or improves inline documentation, docstrings, and README sections. |
+| Component | Type | Command | Description |
+|-----------|------|---------|-------------|
+| plugin-architect | Agent | — | Designs and scaffolds new marketplace plugins following official conventions. |
+| document | Skill | `/document` | Adds or improves inline documentation, docstrings, and README sections. |
 
 ### grill-me
 
+Challenges designs, plans, and ideas with Socratic questioning and devil's-advocate critique to surface hidden assumptions and weaknesses.
+
 | Skill | Command | Description |
 |-------|---------|-------------|
-| grill | `/grill` | Challenges a design using Socratic questioning to surface hidden assumptions. |
+| grill | `/grill` | Challenge a design, plan, or idea and stress-test your assumptions. |
 
 ## Repository Structure
 
 ```
 sdet-marketplace/
 ├── .claude-plugin/
-│   └── marketplace.json          # Top-level catalog
+│   └── marketplace.json          # Top-level toolkit catalog
 ├── plugins/
 │   ├── code-review-tools/
 │   │   ├── .claude-plugin/plugin.json
@@ -94,8 +96,7 @@ sdet-marketplace/
 │       └── skills/grill/
 ├── scripts/
 │   └── plugin-test/              # Internal plugin test runner (not user-facing)
-├── test-apps/                    # Local test targets
-└── tests/                        # Generated test output
+└── test-apps/                    # Local test targets
 ```
 
 ## Adding a Plugin
