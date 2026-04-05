@@ -12,8 +12,9 @@ When the user pastes acceptance criteria, user stories, or a feature description
    - Base URL (if not provided and needed for E2E/API tests)
    - Auth/login flow (if tests require authenticated state)
    - Element locators (if ACs mention UI elements without enough specificity)
-3. Generate one or more test functions per behavior
-4. Group related tests under a `test.describe` / `class` / `pytest.mark` block
+3. Before generating, group behaviors by the page/URL they require. Behaviors that share the same starting page should be combined into one test method with multiple assertions — do not navigate to the same URL once per behavior.
+4. Generate one test method per group (same page) or per distinct behavior (different pages/flows)
+5. Group related tests under a `test.describe` / `class` / `pytest.mark` block
 
 ### Rules
 - If fewer than 2 behaviors are identified, ask: "Can you provide more acceptance criteria?"

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Portside Behavior Consulting{% endblock %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #f5f0e8;
+      color: #2c2c2c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Navigation ── */
+    nav[role="navigation"] {
+      background: #1a3a5c;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+    }
+
+    .nav-brand {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.15rem;
+      font-weight: bold;
+      letter-spacing: 0.02em;
+    }
+
+    nav ul[role="list"] {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      color: #c8ddf0;
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    nav ul a:hover,
+    nav ul a[aria-current="page"] {
+      color: #fff;
+      border-bottom-color: #fff;
+    }
+
+    /* ── Main content ── */
+    main#main-content {
+      flex: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2.5rem 1.5rem;
+    }
+
+    h1 { font-size: 2rem; color: #1a3a5c; margin-bottom: 0.75rem; }
+    h2 { font-size: 1.4rem; color: #1a3a5c; margin: 2rem 0 0.75rem; }
+    h3 { font-size: 1.1rem; color: #1a3a5c; margin-bottom: 0.5rem; }
+    p  { line-height: 1.7; margin-bottom: 1rem; }
+
+    /* ── Buttons / links-as-buttons ── */
+    .btn-primary, .btn-secondary {
+      display: inline-block;
+      padding: 0.65rem 1.5rem;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #1a3a5c;
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: #24527f; }
+
+    .btn-secondary {
+      background: #fff;
+      color: #1a3a5c;
+      border: 2px solid #1a3a5c;
+    }
+
+    .btn-secondary:hover { background: #e8f0f8; }
+
+    /* ── Hero ── */
+    .hero {
+      background: #1a3a5c;
+      color: #fff;
+      border-radius: 8px;
+      padding: 3rem 2.5rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .hero h1 { color: #fff; font-size: 2.2rem; }
+    .hero .hero-sub { color: #c8ddf0; font-size: 1.1rem; margin: 1rem 0 1.75rem; }
+
+    /* ── Services grid ── */
+    .services-grid { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid #d0c8b8;
+      border-radius: 6px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .service-card p { flex: 1; }
+    .price { font-weight: bold; color: #1a3a5c; font-size: 1.1rem; }
+
+    /* ── Testimonials ── */
+    .testimonials-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+
+    .testimonial-card {
+      background: #fff;
+      border-left: 4px solid #1a3a5c;
+      border-radius: 4px;
+      padding: 1rem 1.25rem;
+    }
+
+    blockquote { font-style: italic; color: #444; margin-bottom: 0.25rem; }
+    cite { font-size: 0.875rem; color: #666; }
+
+    /* ── Contact form ── */
+    .field-group { margin-bottom: 1.25rem; display: flex; flex-direction: column; gap: 0.3rem; }
+
+    label {
+      font-family: Arial, sans-serif;
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input, select, textarea {
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #1a3a5c;
+      border-color: #1a3a5c;
+    }
+
+    .field-error {
+      color: #c0392b;
+      font-size: 0.85rem;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ── Success box ── */
+    .success-box {
+      background: #fff;
+      border: 2px solid #27ae60;
+      border-radius: 8px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      max-width: 520px;
+      margin: 2rem auto;
+    }
+
+    .success-box h1 { color: #27ae60; }
+    .success-box p { color: #444; margin: 0.75rem 0; }
+    .success-box .btn-primary { margin-top: 1.5rem; }
+
+    /* ── Footer ── */
+    footer {
+      background: #1a3a5c;
+      color: #8aafc8;
+      text-align: center;
+      padding: 1rem;
+      font-family: Arial, sans-serif;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav role="navigation" aria-label="Main navigation">
+  <a class="nav-brand" href="/">Portside Behavior Consulting</a>
+  <ul role="list">
+    <li>
+      <a href="/"
+         {% if active == 'home' %}aria-current="page"{% endif %}>Home</a>
+    </li>
+    <li>
+      <a href="/services"
+         {% if active == 'services' %}aria-current="page"{% endif %}>Services</a>
+    </li>
+    <li>
+      <a href="/contact"
+         {% if active == 'contact' %}aria-current="page"{% endif %}>Contact</a>
+    </li>
+  </ul>
+</nav>
+
+<main id="main-content">
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  <p>&copy; 2026 Portside Behavior Consulting. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

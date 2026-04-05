@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Contact — Portside Behavior Consulting{% endblock %}
+{% block content %}
+
+<h1>Book a Consultation</h1>
+<p>Fill out the form below and we'll get back to you within 1–2 business days.</p>
+
+<form id="contact-form" method="POST" action="/contact" novalidate
+      data-testid="contact-form">
+
+  <div class="field-group">
+    <label for="name">Full Name <span aria-hidden="true">*</span></label>
+    <input id="name" name="name" type="text" required
+           placeholder="Jane Smith" autocomplete="name">
+  </div>
+
+  <div class="field-group">
+    <label for="email">Email Address <span aria-hidden="true">*</span></label>
+    <input id="email" name="email" type="email" required
+           placeholder="jane@example.com" autocomplete="email">
+    <span id="email-error" role="alert" class="field-error" hidden></span>
+  </div>
+
+  <div class="field-group">
+    <label for="phone">Phone Number</label>
+    <input id="phone" name="phone" type="tel"
+           placeholder="(503) 555-0123" autocomplete="tel">
+  </div>
+
+  <div class="field-group">
+    <label for="service">Service of Interest <span aria-hidden="true">*</span></label>
+    <select id="service" name="service" required data-testid="service-select">
+      <option value="" disabled selected>— Select a service —</option>
+      {% for name in service_names %}
+      <option value="{{ name }}">{{ name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="field-group">
+    <label for="dog_name">Dog's Name <span aria-hidden="true">*</span></label>
+    <input id="dog_name" name="dog_name" type="text" required
+           placeholder="Biscuit">
+  </div>
+
+  <div class="field-group">
+    <label for="dog_breed">Dog's Breed</label>
+    <input id="dog_breed" name="dog_breed" type="text"
+           placeholder="Mixed breed">
+  </div>
+
+  <div class="field-group">
+    <label for="message">Additional Notes</label>
+    <textarea id="message" name="message" rows="5"
+              placeholder="Tell us about your dog's behavior concerns..."></textarea>
+  </div>
+
+  <button type="submit" class="btn-primary" data-testid="submit-btn">
+    Send Inquiry
+  </button>
+
+</form>
+
+<script>
+  document.getElementById('email').addEventListener('blur', function () {
+    const emailError = document.getElementById('email-error');
+    const val = this.value.trim();
+    if (val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      emailError.hidden = false;
+    } else {
+      emailError.textContent = '';
+      emailError.hidden = true;
+    }
+  });
+</script>
+
+{% endblock %}

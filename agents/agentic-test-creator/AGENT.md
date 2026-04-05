@@ -66,6 +66,9 @@ Scan repo for:
 - **Locators belong in page/component classes**, not in test methods — tests call page object methods only
 - Generate component classes for any UI element used across multiple pages (nav, alerts, modals)
 - Group related test functions into a `class Test<Feature>` — do not generate module-level test functions
+- **Combine same-page assertions into one test**: if two or more acceptance criteria only require loading the same URL, assert them in a single test method rather than navigating to that page once per criterion — redundant page loads slow suites significantly
+- **Loop repeated assertions**: when the same assertion applies to multiple elements (e.g. every card has a price, every field is visible), iterate with a `for` loop rather than repeating the call once per element
+- **Always use `expect()`, never raw extraction + `assert`**: never call `.inner_text()`, `.get_attribute()`, or `.count()` paired with a bare `assert` when a Playwright `expect()` equivalent exists — use `to_contain_text`, `to_have_attribute`, `to_have_count`, etc.
 
 ## Output Format
 

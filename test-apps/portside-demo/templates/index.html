@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Portside Behavior Consulting{% endblock %}
+{% block content %}
+
+<section class="hero" data-testid="hero-section">
+  <h1>Welcome to Portside Behavior Consulting</h1>
+  <p class="hero-sub">
+    Expert dog behavior consulting rooted in science, compassion, and results.
+    Based in Portland, OR — serving clients in-person and virtually.
+  </p>
+  <a href="/contact" class="btn-primary">Book a Consultation</a>
+</section>
+
+<section data-testid="about-section">
+  <h2>About Us</h2>
+  <p>
+    Portside Behavior Consulting was founded by Dr. Mae Calloway, a certified
+    applied animal behaviorist (CAAB) with over 15 years of experience helping
+    dogs and their families thrive. Our approach is force-free and grounded in
+    the science of learning theory — no punishment, no fear.
+  </p>
+  <p>
+    Whether your dog is struggling with separation anxiety, leash reactivity,
+    aggression, or simply needs a solid foundation of manners, we build a
+    personalized plan that works for your household.
+  </p>
+  <a href="/services" class="btn-secondary">View Our Services</a>
+</section>
+
+<section data-testid="testimonials-section">
+  <h2>What Our Clients Say</h2>
+  <ul role="list" class="testimonials-list" data-testid="testimonials-list">
+    <li class="testimonial-card">
+      <blockquote>"Mae transformed our anxious rescue into a confident companion. After three sessions, Murphy was a different dog."</blockquote>
+      <cite>— Jordan T., Portland</cite>
+    </li>
+    <li class="testimonial-card">
+      <blockquote>"The group classes were exactly what our puppy needed. Small groups, expert guidance, and a lot of fun."</blockquote>
+      <cite>— Sam R., Lake Oswego</cite>
+    </li>
+  </ul>
+</section>
+
+{% endblock %}
