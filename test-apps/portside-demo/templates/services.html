@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Services — Portside Behavior Consulting{% endblock %}
+{% block content %}
+
+<h1>Our Services</h1>
+<p class="lead">All programs are force-free and grounded in applied behavior analysis.
+Every plan is tailored to your dog's history, temperament, and your household goals.</p>
+
+<ul role="list" class="services-grid" data-testid="services-list">
+  {% for svc in services %}
+  <li class="service-card" id="{{ svc.id }}" data-testid="service-card">
+    <h3>{{ svc.title }}</h3>
+    <p>{{ svc.description }}</p>
+    <p class="price" data-testid="price">{{ svc.price }}</p>
+    <a href="/contact" class="btn-secondary">Book Now</a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
